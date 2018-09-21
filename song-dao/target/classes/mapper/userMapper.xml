@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="yin.ya.song.mapper.UserMapper">
+
+	<resultMap id="BaseResultMap" type="yin.ya.song.User" >
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="realname" property="realname" jdbcType="VARCHAR" />
+		<result column="mobile" property="mobile" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id,realname , mobile
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from user
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+
+	<insert id="insert" parameterType="User"  keyProperty="id" useGeneratedKeys="true">
+        INSERT IGNORE INTO
+           `user`(`realname`,`mobile`)
+        VALUES
+           (#{user.realname},#{user.mobile})
+    </insert>
+
+	<update id="updateRealInfo">
+		UPDATE `user` SET realname=#{realname},modifyDate = NOW() WHERE id = #{id}
+    </update>
+	
+</mapper>
